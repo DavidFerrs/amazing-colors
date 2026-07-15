@@ -51,11 +51,19 @@ class _HomePageState extends State<HomePage> {
           onTap: _changeBackgroundColor,
           child: Scaffold(
             backgroundColor: _backgroundColor,
-            body: Center(
-              child: Text(
-                'Hello there!',
-                style: TextStyle(color: _textColor, fontSize: 32),
-              ),
+            body: Column(
+              crossAxisAlignment: .center,
+              mainAxisAlignment: .center,
+              children: [
+                Text(
+                  'Hello there!',
+                  style: TextStyle(color: _textColor, fontSize: 32),
+                ),
+                HexColorDisplayWidget(
+                  color: _backgroundColor,
+                  isBright: _isBackgroundLuminanceLight(),
+                ),
+              ],
             ),
           ),
         ),
@@ -68,5 +76,50 @@ class _HomePageState extends State<HomePage> {
   /// Represents the brightness of the background color, if it is dark or light.
   bool _isBackgroundLuminanceLight() {
     return _backgroundColor.computeLuminance() > 0.5;
+  }
+}
+
+class HexColorDisplayWidget extends StatelessWidget {
+  const HexColorDisplayWidget({
+    required this.color,
+    required this.isBright,
+    super.key,
+  });
+
+  final Color color;
+  final bool isBright;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color lightTextColor = Colors.white;
+    final Color blackTextColor = Colors.black;
+
+    // TODO: change to function
+    String colorString =
+        '#${color.toARGB32().toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
+
+    return Row(
+      mainAxisAlignment: .center,
+      children: [
+        Text(
+          colorString,
+          style: TextStyle(
+            fontSize: 24,
+            color: isBright ? blackTextColor : lightTextColor,
+          ),
+        ),
+        const SizedBox(width: 2),
+        IconButton(
+          icon: Icon(
+            Icons.copy,
+            color: isBright ? blackTextColor : lightTextColor,
+            size: 18,
+          ),
+          onPressed: () {
+            Clipboard.setData(ClipboardData(text: colorString));
+          },
+        ),
+      ],
+    );
   }
 }
