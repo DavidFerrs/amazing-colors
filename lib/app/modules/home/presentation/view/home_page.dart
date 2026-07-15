@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,42 +18,55 @@ class _HomePageState extends State<HomePage> {
   Color _backgroundColor = Colors.white;
   Color _textColor = Colors.black;
 
+  void _changeBackgroundColor() {
+    setState(() {
+      _randomizeColor();
+      _selectTextColor();
+    });
+  }
+
   void _randomizeColor() {
     var red = Random().nextInt(256);
     var green = Random().nextInt(256);
     var blue = Random().nextInt(256);
 
     _backgroundColor = Color.fromRGBO(red, green, blue, _defaultOpacity);
-    _selectTextColor();
   }
 
   void _selectTextColor() {
-    final luminance = _backgroundColor.computeLuminance();
-
-    setState(() {
-      if (luminance > 0.5) {
-        _textColor = _blackTextColor;
-      } else {
-        _textColor = _lightTextColor;
-      }
-    });
+    _textColor = _isBackgroundLuminanceLight()
+        ? _blackTextColor
+        : _lightTextColor;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: GestureDetector(
-        onTap: _randomizeColor,
-        child: Scaffold(
-          backgroundColor: _backgroundColor,
-          body: Center(
-            child: Text(
-              'Hello there!',
-              style: TextStyle(color: _textColor, fontSize: 32),
+      /// Does not have an [AppBar] used [AnnotatedRegion] for the screen to change the status Bar brightness
+      home: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: _isBackgroundLuminanceLight()
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light,
+        child: GestureDetector(
+          onTap: _changeBackgroundColor,
+          child: Scaffold(
+            backgroundColor: _backgroundColor,
+            body: Center(
+              child: Text(
+                'Hello there!',
+                style: TextStyle(color: _textColor, fontSize: 32),
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  /// Returns a boolean
+  ///
+  /// Represents the brightness of the background color, if it is dark or light.
+  bool _isBackgroundLuminanceLight() {
+    return _backgroundColor.computeLuminance() > 0.5;
   }
 }
