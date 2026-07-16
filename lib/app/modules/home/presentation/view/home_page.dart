@@ -29,7 +29,10 @@ class HomePage extends StatelessWidget {
               ? SystemUiOverlayStyle.dark
               : SystemUiOverlayStyle.light,
           child: GestureDetector(
-            onTap: colorCubit.changeBackgroundColor,
+            onTap: () {
+              colorCubit.changeBackgroundColor();
+              HapticFeedback.lightImpact();
+            },
             child: Scaffold(
               body: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
@@ -101,6 +104,7 @@ class _HexStringWidget extends StatelessWidget {
           ),
           onPressed: () {
             Clipboard.setData(ClipboardData(text: colorString));
+            HapticFeedback.lightImpact();
           },
         ),
       ],
