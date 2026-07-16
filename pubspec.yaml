@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_native_splash: ^2.4.8
   solid_lints: ^0.3.3
 
 dev_dependencies:
@@ -20,6 +21,15 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
+
+flutter_native_splash:
+  image: "assets/images/splashScreen.png"
+  color: "#2B2E31"
+  android: true
+  ios: true
+  android_12:
+    image: "assets/images/android_12_splash.png"
+    color: "#2B2E31"
 
 flutter:
   uses-material-design: true
