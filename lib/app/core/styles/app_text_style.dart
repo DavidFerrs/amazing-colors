@@ -1,7 +1,17 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 
+/// Utility class providing predefined text styles for the application.
+/// 
+/// ### Example
+/// ```dart
+/// Text(
+///   'Hello',
+///   style: AppTextStyle.carterOneRegular.copyWith(color: Colors.blue),
+/// );
+/// ```
 class AppTextStyle {
-  AppTextStyle._();
 
   // ---- Montserrat ----
   static TextStyle get montserratLight => const TextStyle(
@@ -42,4 +52,6 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
   );
+
+  AppTextStyle._();
 }
