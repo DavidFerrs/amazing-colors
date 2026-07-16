@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:amazing_colors/app/core/styles/app_colors.dart';
+import 'package:amazing_colors/app/core/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,8 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Color _lightTextColor = Colors.white;
-  final Color _blackTextColor = Colors.black;
+  final Color _lightTextColor = AppColors.plainWhite;
+  final Color _blackTextColor = AppColors.plainBlack;
   final double _defaultOpacity = 1;
 
   Color _backgroundColor = Colors.white;
@@ -57,7 +59,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text(
                   'Hello there!',
-                  style: TextStyle(color: _textColor, fontSize: 32),
+                  style: AppTextStyle.carterOneRegular.copyWith(
+                    color: _textColor,
+                  ),
                 ),
                 HexColorDisplayWidget(
                   color: _backgroundColor,
@@ -91,8 +95,8 @@ class HexColorDisplayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color lightTextColor = Colors.white;
-    final Color blackTextColor = Colors.black;
+    final Color lightTextColor = AppColors.plainWhite;
+    final Color blackTextColor = AppColors.plainBlack;
 
     // TODO: change to function
     String colorString =
@@ -103,12 +107,11 @@ class HexColorDisplayWidget extends StatelessWidget {
       children: [
         Text(
           colorString,
-          style: TextStyle(
-            fontSize: 24,
+          style: AppTextStyle.montserratRegular.copyWith(
+            fontSize: 20,
             color: isBright ? blackTextColor : lightTextColor,
           ),
         ),
-        const SizedBox(width: 2),
         IconButton(
           icon: Icon(
             Icons.copy,
