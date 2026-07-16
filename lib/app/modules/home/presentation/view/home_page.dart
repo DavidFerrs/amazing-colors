@@ -52,22 +52,25 @@ class _HomePageState extends State<HomePage> {
         child: GestureDetector(
           onTap: _changeBackgroundColor,
           child: Scaffold(
-            backgroundColor: _backgroundColor,
-            body: Column(
-              crossAxisAlignment: .center,
-              mainAxisAlignment: .center,
-              children: [
-                Text(
-                  'Hello there!',
-                  style: AppTextStyle.carterOneRegular.copyWith(
-                    color: _textColor,
+            body: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              color:_backgroundColor,
+              child: Column(
+                crossAxisAlignment: .center,
+                mainAxisAlignment: .center,
+                children: [
+                  Text(
+                    'Hello there!',
+                    style: AppTextStyle.carterOneRegular.copyWith(
+                      color: _textColor,
+                    ),
                   ),
-                ),
-                HexColorDisplayWidget(
-                  color: _backgroundColor,
-                  isBright: _isBackgroundLuminanceLight(),
-                ),
-              ],
+                  HexColorDisplayWidget(
+                    color: _backgroundColor,
+                    isBright: _isBackgroundLuminanceLight(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
