@@ -7,8 +7,10 @@ environment:
   sdk: ^3.12.2
 
 dependencies:
+  equatable: ^2.1.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   solid_lints: ^0.3.3
 
 dev_dependencies:
