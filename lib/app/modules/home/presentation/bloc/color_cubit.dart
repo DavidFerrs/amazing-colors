@@ -1,7 +1,12 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:amazing_colors/app/core/extensions/color_converter_extension.dart';
 import 'package:amazing_colors/app/core/styles/app_colors.dart';
+import 'package:amazing_colors/app/modules/home/domain/entities/color_entity.dart';
+import 'package:amazing_colors/app/modules/home/domain/usecases/get_history_usecase.dart';
+import 'package:amazing_colors/app/modules/home/domain/usecases/save_color_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,21 +22,47 @@ class ColorCubit extends Cubit<ColorState> {
   final Color _lightTextColor = AppColors.plainWhite;
   final Color _blackTextColor = AppColors.plainBlack;
 
-  /// Creates a [ColorCubit]
-  ColorCubit() : super(const ColorState.initial());
+  final SaveColorUseCase _saveColorUseCase;
+  final GetHistoryUseCase _getHistoryUseCase;
 
-  /// Generates a new random background color, determines its brightness, 
+  /// Creates a [ColorCubit]
+  ColorCubit({
+    required this._saveColorUseCase,
+    required this._getHistoryUseCase,
+  }) : super(const ColorState.initial());
+
+  /// Generates a new random background color, determines its brightness,
   /// and emits the new color, brightness status, and contrasting text color.
   void changeBackgroundColor() {
     final newBackgroundColor = _generateRandomColor();
     final isBrigth = _isBackgroundLuminanceLight(newBackgroundColor);
 
-    emit(state.copyWith(
-      backgroundColor: newBackgroundColor,
-      isBright: isBrigth,
-      textColor: isBrigth ? _blackTextColor : _lightTextColor,
-    ));
+    _saveColor(newBackgroundColor);
 
+    emit(
+      state.copyWith(
+        backgroundColor: newBackgroundColor,
+        isBright: isBrigth,
+        textColor: isBrigth ? _blackTextColor : _lightTextColor,
+      ),
+    );
+
+    unawaited(_getHistory());
+  }
+
+  void _saveColor(Color color) {
+    _saveColorUseCase.call(
+      ColorEntity(
+        hex: color.toHexString,
+        creationDate: DateTime.now().toUtc(),
+      ),
+    );
+  }
+
+  Future<void> _getHistory() async {
+    final newHistory = await _getHistoryUseCase.call();
+
+    emit(state.copyWith(history: newHistory));
   }
 
   Color _generateRandomColor() {

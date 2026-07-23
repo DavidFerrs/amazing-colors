@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_non_null_assertion
 import 'package:amazing_colors/app/core/styles/app_colors.dart';
 import 'package:amazing_colors/main.dart' as app;
 import 'package:flutter/material.dart';
@@ -72,6 +73,7 @@ void main() {
                     find.byType(AnimatedContainer),
                   )
                   as AnimatedContainer;
+
           return (container.decoration! as BoxDecoration).color!;
         }
 
@@ -81,16 +83,15 @@ void main() {
         // 3. Get the offset from the center of the screen.
         final center = tester.getCenter(screenFinder);
 
-
         // 4. Save the value of the actual color
-        var actualColor =
-            getCurrentColor();
-            
-        for (int i = 0; i < 20; i++) {
+        var actualColor = getCurrentColor();
+
+        const numberOfCicles = 20;
+        for (int i = 0; i < numberOfCicles; i++) {
           // 5. Tap the screen
           await tester.tapAt(center);
           await tester.pumpAndSettle();
-          
+
           // 6. Save the value of the new color.
           final newColor = getCurrentColor();
 

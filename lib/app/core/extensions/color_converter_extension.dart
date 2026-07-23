@@ -1,9 +1,7 @@
-
 import 'dart:ui';
 
 /// Extension that adds conversion imports to the [Color] class.
 extension ColorConverterExtension on Color {
-
   /// Returns the hexadecimal value of the color formatted as `#RRGGBB` in
   /// uppercase letters.
   String get toHexString {
@@ -13,5 +11,16 @@ extension ColorConverterExtension on Color {
     final formattedHex = hexValue.padLeft(8, '0').substring(2); // 45A924
 
     return '#${formattedHex.toUpperCase()}';
+  }
+}
+
+/// Extension that converts string to color
+extension StringColorExtension on String {
+  /// Recieve a string formatted as `#5B50E5` and return the respective color
+  Color get toColor {
+    final formattedString = replaceAll('#', 'FF');
+    final hexColor = int.parse(formattedString, radix: 16);
+
+    return Color(hexColor);
   }
 }
