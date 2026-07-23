@@ -15,17 +15,22 @@ class ColorState extends Equatable {
   /// Whether the [backgroundColor] is considered bright (high luminance).
   final bool isBright;
 
+  /// Hostory of generated colors ordered by date of creation
+  final List<ColorEntity> history;
+
   @override
   List<Object?> get props => [
     backgroundColor,
     textColor,
     isBright,
+    history,
   ];
 
   const ColorState._({
     required this.backgroundColor,
     required this.textColor,
     required this.isBright,
+    required this.history,
   });
 
   /// The initial state
@@ -35,18 +40,21 @@ class ColorState extends Equatable {
   const ColorState.initial()
     : backgroundColor = AppColors.plainWhite,
       textColor = AppColors.plainBlack,
-      isBright = true;
+      isBright = true,
+      history = const [];
 
   /// Creates a copy of the current state with optionally updated fields.
   ColorState copyWith({
     Color? backgroundColor,
     Color? textColor,
     bool? isBright,
+    List<ColorEntity>? history,
   }) {
     return ColorState._(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       textColor: textColor ?? this.textColor,
       isBright: isBright ?? this.isBright,
+      history: history ?? this.history,
     );
   }
 }

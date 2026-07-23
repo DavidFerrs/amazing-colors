@@ -2,6 +2,7 @@ import 'package:amazing_colors/app/core/extensions/color_converter_extension.dar
 import 'package:amazing_colors/app/core/styles/app_colors.dart';
 import 'package:amazing_colors/app/core/styles/app_text_style.dart';
 import 'package:amazing_colors/app/modules/home/presentation/bloc/color_cubit.dart';
+import 'package:amazing_colors/app/modules/home/presentation/view/components/color_tile_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,6 +42,7 @@ class HomePage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: .center,
                     children: [
+
                       Text(
                         'Hello there!',
                         style: AppTextStyle.carterOneRegular.copyWith(
@@ -50,6 +52,19 @@ class HomePage extends StatelessWidget {
                       _HexStringWidget(
                         color: state.backgroundColor,
                         isBright: state.isBright,
+                      ),
+                      SizedBox(
+                        height: 100,
+                        child: ListView.builder(
+                          itemCount: state.history.length,
+                          scrollDirection: .horizontal,
+                          itemBuilder: (_, index) {
+                            return ColorTileComponent(
+                              colorEntity: state.history[index],
+                              isBright: state.isBright,
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -90,7 +105,7 @@ class _HexStringWidget extends StatelessWidget {
       mainAxisAlignment: .center,
       children: [
         Text(
-          colorString,
+          '#$colorString',
           style: AppTextStyle.montserratRegular.copyWith(
             fontSize: 20,
             color: isBright ? blackTextColor : lightTextColor,

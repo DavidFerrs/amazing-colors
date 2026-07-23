@@ -1,15 +1,6 @@
-import 'package:amazing_colors/app/modules/home/presentation/bloc/color_cubit.dart';
-import 'package:amazing_colors/app/modules/home/presentation/view/home_page.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:amazing_colors/app/app.dart';
+import 'package:amazing_colors/bootstrap.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      home: BlocProvider(
-        create: (_) => ColorCubit(),
-        child: const HomePage(),
-      ),
-    ),
-  );
+  bootstrap(() => const App());
 }

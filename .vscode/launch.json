@@ -9,6 +9,7 @@
             "name": "amazing-colors",
             "request": "launch",
             "type": "dart",
+            "flutterMode": "debug"
         },
         {
             "name": "amazing-colors (profile mode)",
